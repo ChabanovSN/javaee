@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <!-- Эта строка найдет файл только если он бвдет находится в папке webapp/resources/css/ -->
+    <!-- library тут фактически имя подкаталога в папке resources -->
+    <h:outputStylesheet library="css" name="style.css"/>
+</h:head>
+
+<h:body>
+    <h:form>
+        <p>
+            <h:outputLabel for="name-id">Category name:</h:outputLabel>
+            <h:inputText id="name-id" value="#{categories.name}" required="true" requiredMessage="Category name couldn't be empty"/>
+            <h:message for="name-id" class="error" />
+        </p>
+
+        <p>
+            <h:outputLabel for="price-id">Category description:</h:outputLabel>
+            <h:inputText id="price-id" value="#{categories.description}" required="true" requiredMessage="Description couldn't be empty"/>
+            <h:message for="price-id" class="error" />
+        </p>
+
+        <h:commandButton value="Save" action="#{categories.saveProduct}"/>
+    </h:form>
+</h:body>
+
+</html>
