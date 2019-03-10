@@ -9,19 +9,28 @@ import ru.chabanov.javaee.entity.Product;
 import ru.chabanov.javaee.repository.CategoryRepository;
 import ru.chabanov.javaee.repository.ProductRepository;
 
+
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
+import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 @ManagedBean(name = "categories")
 @SessionScoped
-public class CategoriesBean {
+public class CategoriesBean  implements Serializable {
 
     private static final Logger logger = LoggerFactory.getLogger(ProductsBean.class);
 
     @Inject
     private CategoryRepository repository;
+
+
+
+
+
 
 
     private Category category;
@@ -33,48 +42,43 @@ public class CategoriesBean {
     public void setCategory(Category category) {
         this.category = category;
     }
-   public void setId(String id){
-       this.category =repository.getById(id);
-   }
-    public String getId() {
-        return category.getId();
-    }
+
+        public String getDescription () {
+            return category.getDescription();
+        }
+
+        public void setDescription (String description){
+            category.setDescription(description);
+        }
+
+
+        public String getName () {
+            return category.getName();
+        }
+
+        public void setName (String name){
+            category.setName(name);
+        }
+
+
+        public Collection<Category> getCategoryList () {
+            return repository.getAll();
+        }
+
+        public String editAction (Category category){
+            this.category = category; // сохраняем продукт для редактирования
+            return "/category.xhtml?faces-redirect=true"; // возвращаем адрес страницы на которую переходим для редактирования
+        }
+
+        public void deleteAction (Category category){
+            repository.delete(category);
+        }
+
+        public String saveProduct () {
+            repository.save(category);
+            return "/index.xhtml?faces-redirect=true"; // после сохранения продукта возвращаемся на главную страницу
+        }
 
 
 
-    public String getDescription() {
-        return category.getDescription();
-    }
-
-    public void setDescription(String description) {
-        category.setDescription(description);
-    }
-
-
-    public String getName() {
-        return category.getName();
-    }
-
-    public void setName(String name) {
-        category.setName(name);
-    }
-
-
-    public Collection<Category> getCategoryList() {
-        return repository.getAll();
-    }
-
-    public String editAction(Category category) {
-        this.category = category; // сохраняем продукт для редактирования
-        return "/category.xhtml?faces-redirect=true"; // возвращаем адрес страницы на которую переходим для редактирования
-    }
-
-    public void deleteAction(Category category) {
-        repository.delete(category);
-    }
-
-    public String saveProduct() {
-       repository.save(category);
-        return "/index.xhtml?faces-redirect=true"; // после сохранения продукта возвращаемся на главную страницу
-    }
 }

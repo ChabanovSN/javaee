@@ -12,8 +12,9 @@ public class FillRepositoryies {
 
  private static void fillingMaps() {
         if(categoryMap.isEmpty()) {
-            add(new Category("Food", "Something for eating"));
             add(new Category("Clothes", "Something for wearing"));
+            add(new Category("Food", "Something for eating"));
+
             add(new Category("Gadget", "Something for using"));
         }
          if(productMap.isEmpty() && !categoryMap.isEmpty()) {

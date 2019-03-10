@@ -9,15 +9,18 @@ import ru.chabanov.javaee.entity.Product;
 import ru.chabanov.javaee.repository.ProductRepository;
 
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
+import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 
 @ManagedBean(name = "products")
 @SessionScoped // будьте осторожны с бинами Scoped. Они есть как в JSF так и в CDI
-public class ProductsBean {
+public class ProductsBean implements Serializable {
 
     private static final Logger logger = LoggerFactory.getLogger(ProductsBean.class);
 
