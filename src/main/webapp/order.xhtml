@@ -15,21 +15,18 @@
 <h:body>
     <h:form>
         <p>
-            <h:outputLabel for="name-id">Product name:</h:outputLabel>
-            <h:inputText id="name-id" value="#{products.product.name}" required="true" requiredMessage="Product name couldn't be empty"/>
+            <h:outputLabel for="name-id">Category name:</h:outputLabel>
+            <h:inputText id="name-id" value="#{categories.name}" required="true" requiredMessage="Category name couldn't be empty"/>
             <h:message for="name-id" class="error" />
         </p>
 
         <p>
-            <h:outputLabel for="price-id">Product name:</h:outputLabel>
-            <h:inputText id="price-id" value="#{products.product.name}" required="true" requiredMessage="Price couldn't be empty"/>
+            <h:outputLabel for="price-id">Category description:</h:outputLabel>
+            <h:inputText id="price-id" value="#{categories.description}" required="true" requiredMessage="Description couldn't be empty"/>
             <h:message for="price-id" class="error" />
         </p>
-        <h:selectOneMenu  value="#{products.categoriesBean.category}"  converter="omnifaces.SelectItemsIndexConverter">
-            <f:selectItem itemLabel="Choose item" noSelectionOption="true" />
-            <f:selectItems value="#{products.categoriesBean.categoryList}" var="cat" itemValue="#{cat}" itemLabel="#{cat.name}"/>
-        </h:selectOneMenu>
-        <h:commandButton value="Save" action="#{products.saveProduct}"/>
+
+        <h:commandButton value="Save" action="#{categories.saveProduct}"/>
     </h:form>
 </h:body>
 

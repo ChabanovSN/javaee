@@ -9,55 +9,25 @@ import ru.chabanov.javaee.entity.Product;
 import ru.chabanov.javaee.repository.CategoryRepository;
 import ru.chabanov.javaee.repository.ProductRepository;
 
+import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.Serializable;
 import java.util.Collection;
 
-@ManagedBean(name = "categories")
+@Named("categories")
 @SessionScoped
-public class CategoriesBean {
+public class CategoriesBean implements Serializable {
 
-    private static final Logger logger = LoggerFactory.getLogger(ProductsBean.class);
+    private static Logger logger = LoggerFactory.getLogger(CategoriesBean.class);
 
     @Inject
     private CategoryRepository repository;
 
-
+    @Getter
+    @Setter
     private Category category;
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-   public void setId(String id){
-       this.category =repository.getById(id);
-   }
-    public String getId() {
-        return category.getId();
-    }
-
-
-
-    public String getDescription() {
-        return category.getDescription();
-    }
-
-    public void setDescription(String description) {
-        category.setDescription(description);
-    }
-
-
-    public String getName() {
-        return category.getName();
-    }
-
-    public void setName(String name) {
-        category.setName(name);
-    }
 
 
     public Collection<Category> getCategoryList() {
@@ -70,11 +40,11 @@ public class CategoriesBean {
     }
 
     public void deleteAction(Category category) {
-        repository.delete(category);
+        repository.remove(category);
     }
 
     public String saveProduct() {
-       repository.save(category);
+       repository.merge(category);
         return "/index.xhtml?faces-redirect=true"; // после сохранения продукта возвращаемся на главную страницу
     }
 }
