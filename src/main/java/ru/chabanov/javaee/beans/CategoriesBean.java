@@ -9,6 +9,7 @@ import ru.chabanov.javaee.entity.Product;
 import ru.chabanov.javaee.repository.CategoryRepository;
 import ru.chabanov.javaee.repository.ProductRepository;
 
+import javax.ejb.Stateless;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
@@ -16,8 +17,7 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Collection;
 
-@Named("categories")
-@SessionScoped
+@Stateless
 public class CategoriesBean implements Serializable {
 
     private static Logger logger = LoggerFactory.getLogger(CategoriesBean.class);

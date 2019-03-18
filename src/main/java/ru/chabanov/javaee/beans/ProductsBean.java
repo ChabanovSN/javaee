@@ -9,6 +9,8 @@ import ru.chabanov.javaee.entity.Product;
 import ru.chabanov.javaee.repository.ProductRepository;
 
 
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
@@ -17,14 +19,16 @@ import java.io.Serializable;
 import java.util.Collection;
 
 
-@Named("products")
-@SessionScoped
+@Stateless
 public class ProductsBean implements Serializable {
 
     private static final Logger logger = LoggerFactory.getLogger(ProductsBean.class);
 
     @Inject
     private ProductRepository productRepository;
+
+    @EJB
+    private OrdersBean ordersBean;
 
     @Getter
     @Setter
@@ -35,7 +39,9 @@ public class ProductsBean implements Serializable {
    @Setter
     private Product product;
 
-
+    public void addToCart(Product product) {
+        ordersBean.addToCard(product);
+    }
     public Collection<Product> getProductList() {
         return productRepository.getAll();
     }

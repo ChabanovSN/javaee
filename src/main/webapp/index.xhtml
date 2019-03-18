@@ -37,6 +37,9 @@
             <!-- Из бина мы можем привязывать не только данные, но и вызовы методов -->
             <h:column>
                 <f:facet name="header">Action</f:facet>
+                <h:commandButton value="Add to cart" action="#{products.addToCart(product)}">
+                    <f:ajax render="orderForm"/>
+                </h:commandButton>
                 <h:commandButton value="Edit" action="#{products.editAction(product)}"/>
                 <h:commandButton value="Delete" action="#{products.deleteAction(product)}">
                     <!-- одной строки достаточно, чтобы элемент удалялся из таблицы без перезагрузки -->
@@ -48,6 +51,16 @@
 
     <a href="prime.xhtml">Primefaces example</a>
     </div>
+       <div style="float: left">
+          <h:form id="orderForm">
+            <h:dataTable value="#{orders.products}"   var ="prod">
+                <h:column>
+                <f:facet name="orderHeader">Product were ordered</f:facet>
+                    #{prod.name}
+                </h:column>
+            </h:dataTable>
+          </h:form>
+       </div>
     <div style="float: right">
         <h:form id="categoryForm">
         <h:dataTable value="#{categories.categoryList}" var="category">
