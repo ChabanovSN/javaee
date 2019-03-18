@@ -1,24 +1,24 @@
 package ru.chabanov.javaee.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
-
+@MappedSuperclass
+@Data
 public abstract class Common {
-    @ToString.Exclude
-    private static int counterId=0;
+    @Id
+    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-    @Getter
-    @Setter
-    private String id =""+ ++counterId;
-    @Setter
-    @Getter
+    @NotNull
+    @Column(name = "name")
     private String name;
 
-    @Setter
-    @Getter
+
+
+    @Column(name = "description")
     private String description;
 }

@@ -9,17 +9,16 @@ import ru.chabanov.javaee.entity.Product;
 import ru.chabanov.javaee.repository.ProductRepository;
 
 
-import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.List;
 
 
-@ManagedBean(name = "products")
-@SessionScoped // будьте осторожны с бинами Scoped. Они есть как в JSF так и в CDI
+@Named("products")
+@SessionScoped
 public class ProductsBean implements Serializable {
 
     private static final Logger logger = LoggerFactory.getLogger(ProductsBean.class);
@@ -27,36 +26,14 @@ public class ProductsBean implements Serializable {
     @Inject
     private ProductRepository productRepository;
 
+    @Getter
+    @Setter
     @Inject
     private CategoriesBean categoriesBean;
     // наличие такого поля для хранения текущего элемента является стандартным для JSF
    @Getter
    @Setter
     private Product product;
-
-
-    public String getId() {
-        return product.getId();
-    }
-
-
-
-    public String getName() {
-        return product.getName();
-    }
-
-    public void setName(String name) {
-        product.setName(name);
-    }
-
-    public int getPrice() {
-        return product.getPrice();
-    }
-
-    public void setPrice(int price) {
-        product.setPrice(price);
-    }
-
 
 
     public Collection<Product> getProductList() {
@@ -70,20 +47,13 @@ public class ProductsBean implements Serializable {
     }
 
     public void deleteAction(Product product) {
-        productRepository.delete(product);
+        productRepository.remove(product);
     }
 
     public String saveProduct() {
         product.setCategory(categoriesBean.getCategory());
-        productRepository.save(product);
+        productRepository.merge(product);
         return "/index.xhtml?faces-redirect=true"; // после сохранения продукта возвращаемся на главную страницу
     }
 
-    public CategoriesBean getCategoriesBean() {
-        return categoriesBean;
-    }
-
-    public void setCategoriesBean(CategoriesBean categoriesBean) {
-        this.categoriesBean = categoriesBean;
-    }
 }
