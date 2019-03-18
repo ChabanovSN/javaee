@@ -9,17 +9,17 @@ import ru.chabanov.javaee.entity.Product;
 import ru.chabanov.javaee.repository.ProductRepository;
 
 
-import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.List;
 
 
-@ManagedBean(name = "products")
-@SessionScoped // будьте осторожны с бинами Scoped. Они есть как в JSF так и в CDI
+@Stateless
 public class ProductsBean implements Serializable {
 
     private static final Logger logger = LoggerFactory.getLogger(ProductsBean.class);
@@ -27,6 +27,11 @@ public class ProductsBean implements Serializable {
     @Inject
     private ProductRepository productRepository;
 
+    @EJB
+    private OrdersBean ordersBean;
+
+    @Getter
+    @Setter
     @Inject
     private CategoriesBean categoriesBean;
     // наличие такого поля для хранения текущего элемента является стандартным для JSF
@@ -34,31 +39,9 @@ public class ProductsBean implements Serializable {
    @Setter
     private Product product;
 
-
-    public String getId() {
-        return product.getId();
+    public void addToCart(Product product) {
+        ordersBean.addToCard(product);
     }
-
-
-
-    public String getName() {
-        return product.getName();
-    }
-
-    public void setName(String name) {
-        product.setName(name);
-    }
-
-    public int getPrice() {
-        return product.getPrice();
-    }
-
-    public void setPrice(int price) {
-        product.setPrice(price);
-    }
-
-
-
     public Collection<Product> getProductList() {
         return productRepository.getAll();
     }
@@ -70,20 +53,13 @@ public class ProductsBean implements Serializable {
     }
 
     public void deleteAction(Product product) {
-        productRepository.delete(product);
+        productRepository.remove(product);
     }
 
     public String saveProduct() {
         product.setCategory(categoriesBean.getCategory());
-        productRepository.save(product);
+        productRepository.merge(product);
         return "/index.xhtml?faces-redirect=true"; // после сохранения продукта возвращаемся на главную страницу
     }
 
-    public CategoriesBean getCategoriesBean() {
-        return categoriesBean;
-    }
-
-    public void setCategoriesBean(CategoriesBean categoriesBean) {
-        this.categoriesBean = categoriesBean;
-    }
 }

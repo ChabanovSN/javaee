@@ -76,7 +76,12 @@
       <artifactId>primefaces</artifactId>
       <version>6.0</version>
     </dependency>
-
+    <!--конвертер для select-->
+    <dependency>
+      <groupId>org.omnifaces</groupId>
+      <artifactId>omnifaces</artifactId>
+      <version>3.2</version>
+    </dependency>
     <!-- Тема Bootstrap для Primefaces -->
     <!-- https://mvnrepository.com/artifact/org.primefaces.themes/bootstrap -->
     <dependency>
@@ -89,6 +94,33 @@
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>1.18.6</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.spec.javax.ejb</groupId>
+      <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+      <version>1.0.1.Final</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hibernate.javax.persistence</groupId>
+      <artifactId>hibernate-jpa-2.1-api</artifactId>
+      <version>1.0.2.Final</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>5.3.7.Final</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hibernate.validator</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>6.0.15.Final</version>
       <scope>provided</scope>
     </dependency>
 
@@ -108,6 +140,13 @@
           <groupId>org.wildfly.plugins</groupId>
           <artifactId>wildfly-maven-plugin</artifactId>
           <version>2.0.0.Final</version>
+          <!-- Скрипт для создания Datasource с доступом к локальному MySQL -->
+          <configuration>
+            <scripts>
+              <script>datasource.cli</script>
+            </scripts>
+            <jboss-home>/wildfly-15.0.0.Final</jboss-home>
+          </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>

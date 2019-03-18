@@ -9,76 +9,42 @@ import ru.chabanov.javaee.entity.Product;
 import ru.chabanov.javaee.repository.CategoryRepository;
 import ru.chabanov.javaee.repository.ProductRepository;
 
-
-import javax.annotation.PostConstruct;
+import javax.ejb.Stateless;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.List;
 
-@ManagedBean(name = "categories")
-@SessionScoped
-public class CategoriesBean  implements Serializable {
+@Stateless
+public class CategoriesBean implements Serializable {
 
-    private static final Logger logger = LoggerFactory.getLogger(ProductsBean.class);
+    private static Logger logger = LoggerFactory.getLogger(CategoriesBean.class);
 
     @Inject
     private CategoryRepository repository;
 
-
-
-
-
-
-
+    @Getter
+    @Setter
     private Category category;
 
-    public Category getCategory() {
-        return category;
+
+    public Collection<Category> getCategoryList() {
+        return repository.getAll();
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public String editAction(Category category) {
+        this.category = category; // сохраняем продукт для редактирования
+        return "/category.xhtml?faces-redirect=true"; // возвращаем адрес страницы на которую переходим для редактирования
     }
 
-        public String getDescription () {
-            return category.getDescription();
-        }
+    public void deleteAction(Category category) {
+        repository.remove(category);
+    }
 
-        public void setDescription (String description){
-            category.setDescription(description);
-        }
-
-
-        public String getName () {
-            return category.getName();
-        }
-
-        public void setName (String name){
-            category.setName(name);
-        }
-
-
-        public Collection<Category> getCategoryList () {
-            return repository.getAll();
-        }
-
-        public String editAction (Category category){
-            this.category = category; // сохраняем продукт для редактирования
-            return "/category.xhtml?faces-redirect=true"; // возвращаем адрес страницы на которую переходим для редактирования
-        }
-
-        public void deleteAction (Category category){
-            repository.delete(category);
-        }
-
-        public String saveProduct () {
-            repository.save(category);
-            return "/index.xhtml?faces-redirect=true"; // после сохранения продукта возвращаемся на главную страницу
-        }
-
-
-
+    public String saveProduct() {
+       repository.merge(category);
+        return "/index.xhtml?faces-redirect=true"; // после сохранения продукта возвращаемся на главную страницу
+    }
 }
